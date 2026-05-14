@@ -5,61 +5,10 @@ import AddExpenseForm from './components/AddExpenseForm';
 import ExpensesTable from './components/ExpensesTable';
 import ResultsPanel from './components/ResultsPanel';
 
-const SAMPLE_EXPENSES: Expense[] = [
-  {
-    id: '1',
-    description: 'khách sạn',
-    amount: 3334878,
-    paidBy: 'Trâm',
-    splitAmong: ['Trâm', 'Mai', 'Phương', 'Loan'],
-    date: '2026-08-07',
-  },
-  {
-    id: '2',
-    description: 'hủ tiếu',
-    amount: 90000,
-    paidBy: 'Trâm',
-    splitAmong: ['Mai', 'Loan'],
-    date: '2026-08-07',
-  },
-  {
-    id: '3',
-    description: 'bánh mì chảo',
-    amount: 100000,
-    paidBy: 'Mai',
-    splitAmong: ['Mai'],
-    date: '2026-08-07',
-  },
-  {
-    id: '4',
-    description: 'nước',
-    amount: 56000,
-    paidBy: 'Trâm',
-    splitAmong: ['Trâm', 'Mai', 'Phương', 'Loan'],
-    date: '2026-08-07',
-  },
-  {
-    id: '5',
-    description: 'Soho',
-    amount: 308880,
-    paidBy: 'Loan',
-    splitAmong: ['Trâm', 'Mai', 'Phương', 'Loan'],
-    date: '2026-08-08',
-  },
-  {
-    id: '6',
-    description: 'xăng',
-    amount: 200000,
-    paidBy: 'Trâm',
-    splitAmong: ['Trâm', 'Mai', 'Phương', 'Loan'],
-    date: '2026-08-08',
-  },
-];
-
 export default function App() {
-  const [label, setLabel] = useState('Mũi Né 07-08');
-  const [participants, setParticipants] = useState<string[]>(['Trâm', 'Mai', 'Phương', 'Loan']);
-  const [expenses, setExpenses] = useState<Expense[]>(SAMPLE_EXPENSES);
+  const [label, setLabel] = useState('');
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const addExpense = (expense: Expense) => {
     setExpenses((prev) => [...prev, expense]);
@@ -83,7 +32,7 @@ export default function App() {
         {/* Row 2: add expense form + results side by side */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
           <AddExpenseForm participants={participants} onAdd={addExpense} />
-          <ResultsPanel participants={participants} />
+          <ResultsPanel participants={participants} expenses={expenses} />
         </div>
 
         {/* Row 3: full-width expenses table */}
