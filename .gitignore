@@ -19,3 +19,6 @@ package-lock.json
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# AI instructions
+CLAUDE.md
