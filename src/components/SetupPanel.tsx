@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
+import mascotSvg from '@/assets/mascot.svg';
 
 interface SetupPanelProps {
   label: string;
@@ -34,63 +35,71 @@ export default function SetupPanel({
 
   return (
     <Card className="border-border">
-      <CardContent className="pt-5 pb-5">
-        {/* App header with export action */}
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-xl font-bold text-foreground">
-            Share the Bill with 🐻 Shill the Bear
-          </h1>
-          <Button variant="outline" size="sm">
-            Export JSON
-          </Button>
-        </div>
-
-        {/* Row 1: session label */}
-        <div className="mb-4">
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-            Label
-          </label>
-          <Input
-            value={label}
-            onChange={(e) => onLabelChange(e.target.value)}
-            placeholder="Dinner, Trip, Rent…"
+      <CardContent className="py-0">
+        {/* Two-column layout: mascot on the left, form on the right */}
+        <div className="flex gap-5">
+          {/* Mascot logo */}
+          <img
+            src={mascotSvg}
+            alt="Shill the Bear mascot"
+            className="h-45 shrink-0 self-center"
           />
-        </div>
 
-        {/* Row 2: participant badges with inline add */}
-        <div>
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-            Participants
-          </label>
-          <div className="flex flex-wrap items-center gap-1.5">
-            {participants.map((p, i) => (
-              <Badge key={i} variant="secondary" className="pl-2.5 pr-1.5 py-0.5 gap-1">
-                {p}
-                <button
-                  onClick={() => removePerson(i)}
-                  className="text-muted-foreground hover:text-foreground transition"
-                >
-                  <X className="size-3" />
-                </button>
-              </Badge>
-            ))}
-            <div className="flex items-center gap-1">
+          {/* Form content */}
+          <div className="flex-1 min-w-0">
+            {/* App title */}
+            <h1 className="text-xl font-bold text-foreground mb-4">
+              Shill the Bear
+            </h1>
+
+            {/* Row 1: session label */}
+            <div className="mb-4">
+              <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                Label
+              </label>
               <Input
-                value={newPerson}
-                onChange={(e) => setNewPerson(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') addPerson();
-                }}
-                className="w-28 rounded-full"
-                placeholder="+ Add…"
+                value={label}
+                onChange={(e) => onLabelChange(e.target.value)}
+                placeholder="Dinner, Trip, Rent…"
               />
-              <Button
-                size="icon-xs"
-                onClick={addPerson}
-                className="rounded-full"
-              >
-                +
-              </Button>
+            </div>
+
+            {/* Row 2: participant badges with inline add */}
+            <div>
+              <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                Participants
+              </label>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {participants.map((p, i) => (
+                  <Badge key={i} variant="secondary" className="pl-4 pr-3.5 py-4 gap-1 text-md">
+                    {p}
+                    <button
+                      onClick={() => removePerson(i)}
+                      className="text-muted-foreground hover:text-foreground transition"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </Badge>
+                ))}
+                <div className="flex items-center gap-1">
+                  <Input
+                    value={newPerson}
+                    onChange={(e) => setNewPerson(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') addPerson();
+                    }}
+                    className="w-fit rounded-full"
+                    placeholder="+ Add person..."
+                  />
+                  <Button
+                    size="icon-sm"
+                    onClick={addPerson}
+                    className="rounded-full text-md"
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
