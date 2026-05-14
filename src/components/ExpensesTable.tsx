@@ -1,5 +1,6 @@
 import type { Expense } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
+import { fmt } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -13,11 +14,6 @@ interface ExpensesTableProps {
   expenses: Expense[];
   participants: string[];
   onDelete: (id: string) => void;
-}
-
-/** Format a number with thousand separators (e.g. 1,928,463). */
-function formatFull(amount: number): string {
-  return amount.toLocaleString('vi-VN');
 }
 
 /** Convert YYYY-MM-DD → DD/MM for compact display. */
@@ -78,7 +74,7 @@ export default function ExpensesTable({ expenses, participants, onDelete }: Expe
                     {e.description}
                   </TableCell>
                   <TableCell className="text-right font-semibold whitespace-nowrap">
-                    {formatFull(e.amount)}
+                    {fmt(e.amount)}
                   </TableCell>
                   <TableCell className="text-muted-foreground whitespace-nowrap">
                     {e.paidBy}
@@ -87,7 +83,7 @@ export default function ExpensesTable({ expenses, participants, onDelete }: Expe
                     const share = personShare(e, p);
                     return (
                       <TableCell key={p} className="text-right text-muted-foreground whitespace-nowrap">
-                        {share === 0 ? '—' : formatFull(share)}
+                        {share === 0 ? '—' : fmt(share)}
                       </TableCell>
                     );
                   })}
@@ -104,11 +100,11 @@ export default function ExpensesTable({ expenses, participants, onDelete }: Expe
               {/* Footer totals row */}
               <TableRow className="font-semibold">
                 <td className="py-2" colSpan={2} />
-                <td className="py-2 text-right">{formatFull(grandTotal)}</td>
+                <td className="py-2 text-right">{fmt(grandTotal)}</td>
                 <td className="py-2">Total</td>
                 {participants.map((p, i) => (
                   <td key={p} className="py-2 text-right whitespace-nowrap">
-                    {formatFull(columnTotals[i])}
+                    {fmt(columnTotals[i])}
                   </td>
                 ))}
                 <td />

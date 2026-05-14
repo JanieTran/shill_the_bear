@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { fmt } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -26,12 +27,6 @@ interface Settlement {
   amount: number;
 }
 
-/** Format a number with thousand separators (e.g. 1,928,463). */
-function formatFull(amount: number): string {
-  const abs = Math.abs(amount);
-  return abs.toLocaleString('vi-VN');
-}
-
 export default function ResultsPanel(_props: ResultsPanelProps) {
   // Placeholder data — will be replaced by real calculations later
   const balances: BalanceRow[] = [
@@ -49,7 +44,7 @@ export default function ResultsPanel(_props: ResultsPanelProps) {
 
   const copySummary = () => {
     const lines = settlements.map(
-      (s) => `${s.from} → ${s.to}: ${s.amount.toLocaleString('vi-VN')}`
+      (s) => `${s.from} → ${s.to}: ${fmt(s.amount)}`
     );
     navigator.clipboard.writeText(lines.join('\n')).catch(() => {
       // clipboard may not be available
@@ -75,18 +70,18 @@ export default function ResultsPanel(_props: ResultsPanelProps) {
               <TableRow key={b.name}>
                 <TableCell className="font-medium">{b.name}</TableCell>
                 <TableCell className="text-right text-muted-foreground">
-                  {formatFull(b.paid)}
+                  {fmt(b.paid)}
                 </TableCell>
                 <TableCell className="text-right text-muted-foreground">
-                  {formatFull(b.spent)}
+                  {fmt(b.spent)}
                 </TableCell>
                 <TableCell
                   className={`text-right font-medium ${
-                    b.net >= 0 ? 'text-foreground' : 'text-destructive'
+                    b.net >= 0 ? 'text-green-600' : 'text-destructive'
                   }`}
                 >
                   {b.net >= 0 ? '+' : ''}
-                  {formatFull(b.net)}
+                  {fmt(b.net)}
                 </TableCell>
               </TableRow>
             ))}
@@ -102,7 +97,7 @@ export default function ResultsPanel(_props: ResultsPanelProps) {
                 {s.from} → {s.to}
               </span>
               <span className="font-medium text-foreground">
-                {s.amount.toLocaleString('vi-VN')}
+                {fmt(s.amount)}
               </span>
             </div>
           ))}
