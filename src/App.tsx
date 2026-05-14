@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import type { Expense } from './types';
 import SetupPanel from './components/SetupPanel';
 import AddExpenseForm from './components/AddExpenseForm';
 import ExpensesTable from './components/ExpensesTable';
 import ResultsPanel from './components/ResultsPanel';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 export default function App() {
-  const [label, setLabel] = useState('');
-  const [participants, setParticipants] = useState<string[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [label, setLabel] = useLocalStorage<string>('label', '');
+  const [participants, setParticipants] = useLocalStorage<string[]>('participants', []);
+  const [expenses, setExpenses] = useLocalStorage<Expense[]>('expenses', []);
 
   const addExpense = (expense: Expense) => {
     setExpenses((prev) => [...prev, expense]);
@@ -16,6 +16,12 @@ export default function App() {
 
   const deleteExpense = (id: string) => {
     setExpenses((prev) => prev.filter((e) => e.id !== id));
+  };
+
+  const clearAllData = () => {
+    setLabel('');
+    setParticipants([]);
+    setExpenses([]);
   };
 
   return (
@@ -27,6 +33,7 @@ export default function App() {
           participants={participants}
           onLabelChange={setLabel}
           onParticipantsChange={setParticipants}
+          onClear={clearAllData}
         />
 
         {/* Row 2: add expense form + results side by side */}

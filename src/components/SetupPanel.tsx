@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
+import { X, Eraser } from 'lucide-react';
 import mascotSvg from '@/assets/mascot.svg';
 
 interface SetupPanelProps {
@@ -11,6 +11,7 @@ interface SetupPanelProps {
   participants: string[];
   onLabelChange: (label: string) => void;
   onParticipantsChange: (participants: string[]) => void;
+  onClear: () => void;
 }
 
 export default function SetupPanel({
@@ -18,6 +19,7 @@ export default function SetupPanel({
   participants,
   onLabelChange,
   onParticipantsChange,
+  onClear,
 }: SetupPanelProps) {
   const [newPerson, setNewPerson] = useState('');
 
@@ -35,7 +37,7 @@ export default function SetupPanel({
 
   return (
     <Card className="border-border">
-      <CardContent className="py-0">
+      <CardContent className="py-2">
         {/* Two-column layout: mascot on the left, form on the right */}
         <div className="flex gap-5">
           {/* Mascot logo */}
@@ -46,11 +48,29 @@ export default function SetupPanel({
           />
 
           {/* Form content */}
-          <div className="flex-1 min-w-0">
-            {/* App title */}
-            <h1 className="text-xl font-bold text-foreground mb-4">
-              Shill the Bear
-            </h1>
+          <div className="flex flex-col w-full min-w-0 pr-8">
+            <div className="flex items-center justify-between">
+              {/* App title */}
+              <h1 className="text-xl font-bold text-foreground mb-4 shrink">
+                Shill the Bear
+              </h1>
+
+              {/* Clear data button — pushed to the right */}
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={() => {
+                  if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                    onClear();
+                  }
+                }}
+                className="py-2 px-4 mr-8 text-muted-foreground hover:text-destructive gap-1.5"
+                title="Clear all data"
+              >
+                <Eraser className="size-4" />
+                Clear Data
+              </Button>
+            </div>
 
             {/* Row 1: session label */}
             <div className="mb-4">
