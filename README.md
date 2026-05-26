@@ -1,3 +1,5 @@
+<p align="center"><img src="src/assets/mascot.svg" alt="Shill the Bear mascot" width="120" /></p>
+
 # Shill the Bear 🐻
 
 **Share the Bill** — a single-page expense splitting app.

@@ -38,24 +38,23 @@ export default function SetupPanel({
   return (
     <Card className="border-border">
       <CardContent className="py-2">
-        {/* Two-column layout: mascot on the left, form on the right */}
-        <div className="flex gap-5">
-          {/* Mascot logo */}
+        {/* Outer: vertical on mobile, horizontal on desktop */}
+        <div className="flex flex-col md:flex-row gap-4 md:gap-5">
+          {/* Mascot — small on mobile, big on desktop */}
           <img
             src={mascotSvg}
             alt="Shill the Bear mascot"
-            className="h-45 shrink-0 self-center"
+            className="h-14 md:h-45 shrink-0 self-center"
           />
 
-          {/* Form content */}
-          <div className="flex flex-col w-full min-w-0 pr-8">
-            <div className="flex items-center justify-between">
-              {/* App title */}
-              <h1 className="text-xl font-bold text-foreground mb-4 shrink">
+          {/* Right side: title+clear on one row, then label, then participants */}
+          <div className="flex flex-col w-full min-w-0 flex-1">
+            {/* Title row */}
+            <div className="flex items-center gap-10">
+              <h1 className="text-lg md:text-xl font-bold text-foreground shrink">
                 Shill the Bear
               </h1>
 
-              {/* Clear data button — pushed to the right */}
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -64,16 +63,16 @@ export default function SetupPanel({
                     onClear();
                   }
                 }}
-                className="py-2 px-4 mr-8 text-muted-foreground hover:text-destructive gap-1.5"
+                className="py-2 px-4 text-muted-foreground hover:text-destructive gap-1.5"
                 title="Clear all data"
               >
                 <Eraser className="size-4" />
-                Clear Data
+                <span className="hidden sm:inline">Clear Data</span>
               </Button>
             </div>
 
-            {/* Row 1: session label */}
-            <div className="mb-4">
+            {/* Label */}
+            <div className="mt-4">
               <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Label
               </label>
@@ -84,8 +83,8 @@ export default function SetupPanel({
               />
             </div>
 
-            {/* Row 2: participant badges with inline add */}
-            <div>
+            {/* Participants */}
+            <div className="mt-4">
               <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Participants
               </label>
