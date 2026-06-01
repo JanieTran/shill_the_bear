@@ -31,6 +31,15 @@ function saveSession(session: StoredSession): void {
   }
 }
 
+/** Remove the entire session from localStorage. */
+export function clearLocalStorage(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Storage unavailable — ignore.
+  }
+}
+
 /**
  * useState-like hook that syncs with localStorage.
  * Returns [value, setValue] — same contract as useState.

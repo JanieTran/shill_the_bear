@@ -3,7 +3,7 @@ import SetupPanel from './components/SetupPanel';
 import AddExpenseForm from './components/AddExpenseForm';
 import ExpensesTable from './components/ExpensesTable';
 import ResultsPanel from './components/ResultsPanel';
-import { useLocalStorage } from './hooks/useLocalStorage';
+import { useLocalStorage, clearLocalStorage } from './hooks/useLocalStorage';
 
 export default function App() {
   const [label, setLabel] = useLocalStorage<string>('label', '');
@@ -19,6 +19,10 @@ export default function App() {
   };
 
   const clearAllData = () => {
+    // Remove from localStorage first so no stale data can survive.
+    clearLocalStorage();
+    // Then reset in-memory state (their useEffects would write empty
+    // values back anyway, but the localStorage key is already gone.)
     setLabel('');
     setParticipants([]);
     setExpenses([]);
