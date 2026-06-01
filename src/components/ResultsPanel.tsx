@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Expense } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { fmt } from '@/lib/utils';
+import { fmt, personShareAmount } from '@/lib/utils';
 import { ClipboardCopy } from 'lucide-react';
 import {
   RadioGroup,
@@ -45,10 +45,15 @@ function computeBalances(participants: string[], expenses: Expense[]): BalanceRo
       .filter((e) => e.paidBy === name)
       .reduce((sum, e) => sum + e.amount, 0);
 
-    // Sum of this person's even share across all expenses they're split among
+    // Sum of this person's share across all expenses they're split among
+    // Uses weighted split when splitWeights is defined, otherwise equal split
     const spent = expenses
       .filter((e) => e.splitAmong.includes(name))
-      .reduce((sum, e) => sum + Math.round(e.amount / e.splitAmong.length), 0);
+      .reduce(
+        (sum, e) =>
+          sum + personShareAmount(e.amount, name, e.splitAmong, e.splitWeights),
+        0,
+      );
 
     return { name, paid, spent, net: paid - spent };
   });

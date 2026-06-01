@@ -5,6 +5,8 @@ export interface Expense {
   amount: number;
   paidBy: string;
   splitAmong: string[];
+  /** Optional weights for weighted splitting. When absent/empty, split equally. */
+  splitWeights?: Record<string, number>;
   date?: string;
 }
 

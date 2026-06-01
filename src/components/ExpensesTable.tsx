@@ -1,6 +1,6 @@
 import type { Expense } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
-import { fmt } from '@/lib/utils';
+import { fmt, personShareAmount } from '@/lib/utils';
 import { Trash2 } from 'lucide-react';
 import {
   Table,
@@ -17,10 +17,13 @@ interface ExpensesTableProps {
   onDelete: (id: string) => void;
 }
 
-/** Calculate one person's share of an expense (even split). */
+/**
+ * Calculate one person's share of an expense.
+ * Uses weighted split when splitWeights is defined, otherwise equal split.
+ */
 function personShare(e: Expense, person: string): number {
   if (!e.splitAmong.includes(person)) return 0;
-  return Math.round(e.amount / e.splitAmong.length);
+  return personShareAmount(e.amount, person, e.splitAmong, e.splitWeights);
 }
 
 export default function ExpensesTable({ expenses, participants, onDelete }: ExpensesTableProps) {
